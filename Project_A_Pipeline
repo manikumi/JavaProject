@@ -1,0 +1,21 @@
+pipeline {
+    agent {label "Project_A"}
+
+    stages {
+        stage('Step 1: Clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/manikumi/JavaProject.git'
+            }
+        }
+        stage('Step 2: Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Step 3: Deploy') {
+            steps {
+                deploy adapters: [tomcat8(credentialsId: '11020329-e49b-4e9a-b8b0-024001d0bd1d', path: '', url: 'http://18.234.76.255:8080/')], contextPath: null, war: '**/*.war'
+            }
+        }
+    }
+}
