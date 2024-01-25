@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> Welcome  to devops   </title>
+<title> Welcome  to devops tutorial 2024</title>
 <style>
   body {
     background-color: orange;
