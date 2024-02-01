@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Step 3: Deploy') {
             steps {
-                deploy adapters: [tomcat8(credentialsId: '11020329-e49b-4e9a-b8b0-024001d0bd1d', path: '', url: 'http://18.234.76.255:8080/')], contextPath: null, war: '**/*.war'
+                deploy adapters: [tomcat8(credentialsId: '11020329-e49b-4e9a-b8b0-024001d0bd1d', path: '', url: 'http://35.171.193.100:8080/')], contextPath: null, war: '**/*.war'
             }
         }
     }
