@@ -1,20 +1,51 @@
 pipeline {
     agent {label "Project_A"}
 
+triggers {
+        pollSCM('* * * * *')
+    }
+
     stages {
-        stage('Step 1: Clone') {
+        stage('Clone') {
             steps {
+                echo 'clone project'
                 git branch: 'main', url: 'https://github.com/manikumi/JavaProject.git'
             }
         }
-        stage('Step 2: Build') {
+        stage('Build') {
             steps {
+                echo 'build'
                 sh 'mvn clean package'
             }
         }
-        stage('Step 3: Deploy') {
+        stage('Docker Build') {
             steps {
-                deploy adapters: [tomcat8(credentialsId: '11020329-e49b-4e9a-b8b0-024001d0bd1d', path: '', url: 'http://35.171.193.100:8080/')], contextPath: null, war: '**/*.war'
+                echo 'docker build'
+                sh 'docker build -t helloworld .'
+            }
+        }
+        stage('Login to Docker Hub') {
+            steps {
+                echo 'login to docker hub'
+                sh 'docker login -u manikumisai -p Sairam@1998'
+            }
+        }
+        stage('Tag the image') {
+            steps {
+                echo 'tag the image'
+                sh 'docker tag helloworld manikumisai/helloworld'
+            }
+        }
+        stage('Remove docker container') {
+            steps {
+                echo 'remove docker container'
+                sh 'docker stop helloworld_container || true'
+                sh 'docker rm helloworld_container || true' 
+            }
+            stage('Run docker image') {
+            steps {
+                echo 'run docker image'
+                sh 'docker run --name helloworld_container -d -p 8080:8080 manikumisai/helloworld'
             }
         }
     }
