@@ -6,7 +6,7 @@
 <title> Welcome  to devops tutorial 2024</title>
 <style>
   body {
-    background-color: orange;
+    background-color: green;
   }
 </style>
 </head>
