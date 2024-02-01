@@ -1,10 +1,6 @@
 pipeline {
     agent {label "Project_A"}
 
-triggers {
-        pollSCM('* * * * *')
-    }
-
     stages {
         stage('Clone') {
             steps {
