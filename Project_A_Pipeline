@@ -42,7 +42,8 @@ triggers {
                 sh 'docker stop helloworld_container || true'
                 sh 'docker rm helloworld_container || true' 
             }
-            stage('Run docker image') {
+        }
+        stage('Run docker image') {
             steps {
                 echo 'run docker image'
                 sh 'docker run --name helloworld_container -d -p 8080:8080 manikumisai/helloworld'
