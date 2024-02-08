@@ -1,0 +1,30 @@
+pipeline {
+    agent {label "Project_A"}
+
+    stages {
+        stage('Clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/manikumi/JavaProject.git'
+                echo 'sucessfully cloned  the project'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+                echo 'sucessfully built the project'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                deploy adapters: [tomcat8(credentialsId: '11020329-e49b-4e9a-b8b0-024001d0bd1d', path: '', url: 'http://3.235.94.89:8080/')], contextPath: null, war: '**/*.war'
+                echo 'sucessfully deployed project to tomcat server'
+            }
+        }
+        stage('Upload') {
+            steps {
+                nexusArtifactUploader artifacts: [[artifactId: 'helloworld', classifier: '', file: '/var/jenkins/workspace/Project_A_Helloworld/target/helloworld-1.9-SNAPSHOT.war', type: 'war']], credentialsId: 'e56a109c-6752-45ab-8252-8d3c745d703b', groupId: 'com.example', nexusUrl: '44.204.196.132:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'Project_A_Helloworld', version: '1.9-SNAPSHOT'
+                echo 'Sucessfully uploaded to Nexus Repository'
+            }
+        }
+    }
+}
